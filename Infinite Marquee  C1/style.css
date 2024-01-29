@@ -1,0 +1,99 @@
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap");
+.star {
+  transform-style: preserve-3d;
+  width: 1px;
+  height: 1px;
+  position: absolute;
+  color: red;
+}
+
+.star:before {
+  position: absolute;
+  content: "✦";
+  color: inherit;
+  inset: 0;
+  text-shadow: 0 0 0.8em #fff5;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Montserrat", sans-serif;
+  color: #F9F6EF;
+  display: grid;
+  place-content: center;
+  background-image: radial-gradient(circle at 50% 50%, #2f3040, #1f2020);
+}
+
+:root {
+	--size: clamp(10rem, 1rem + 40vmin, 30rem);
+	--gap: calc(var(--size) / 14);
+	--duration: 50s;
+	--scroll-start: 0;
+	--scroll-end: calc(-100% - var(--gap));
+}
+
+svg {
+	max-width: 100px;
+	height: auto;
+}
+
+.marquee {
+	position: relative;
+	display: flex;
+	overflow: hidden;
+	user-select: none;
+	gap: var(--gap);
+}
+
+.marquee__group {
+	flex-shrink: 0;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	gap: var(--gap);
+	min-width: 100%;
+	animation: scroll-x var(--duration) linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.marquee__group {
+		animation-play-state: paused;
+	}
+}
+
+.marquee--reverse .marquee__group {
+	animation-direction: reverse;
+	animation-delay: -3s;
+}
+
+@keyframes scroll-x {
+	from {
+		transform: translateX(var(--scroll-start));
+	}
+	to {
+		transform: translateX(var(--scroll-end));
+	}
+}
+
+.marquee::before,
+.marquee::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 100px;
+	z-index: 10;
+	pointer-events: none;
+	background: linear-gradient(
+		to right,
+		#fff 0%,
+		transparent 100%
+	);
+}
+
+.marquee::after {
+	right: 0;
+	transform: rotate(180deg);
+}
